@@ -7,6 +7,21 @@
       padding-top: 65px;
     }
     </style>
+    <script>
+    function fn() {
+    var x = document.getElementById("r1");
+    var y = document.getElementById("r2");
+    if(x.checked){
+       document.getElementById("r").style.display = "none";
+       document.getElementById("f").style.display = "";
+       document.getElementById("i").style.display = "none";
+    } else if (y.checked) {
+       document.getElementById("r").style.display = "none";
+       document.getElementById("f").style.display = "none";
+       document.getElementById("i").style.display = "";
+    }
+}
+</script>
   </head>
   <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -26,10 +41,10 @@
             {% if current_user.is_authenticated %}
               <li><a href="/options">Options</a></li>
               <li><a href="/logout">Logout</a></li>
-			  <li> {{ current_user.get_id() }} </li>
+        <li> {{ current_user.get_id() }} </li>
             {% else %}
               <li><a href="/login">Login</a></li>
-              <li><a href="/register">Create User</a></li>
+              <li><a href="/signup">Sign Up</a></li>
             {% endif %}
           </ul>
         </div><!--/.nav-collapse -->

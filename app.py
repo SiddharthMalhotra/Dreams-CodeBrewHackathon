@@ -53,20 +53,35 @@ def options():
     elif request.method == 'POST':
         id = request.form['txtid']
         user = User.query.filter_by(id=id)
-
         db.session.delete(user.one())
+        
+        #a = db.session.query(Submission).filter_by(username=username,password=password).count()
         db.session.commit()
         flash('You have deleted the username')
         return redirect(url_for('logout'))
+        
         
     else:
         abort(405)
 
 
+
+    
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+@app.route('/signup', methods=['GET','SET'])
+def signup():
+    if request.method == 'GET':
+        return render_template('signup.html')
+    elif request.method =='POST':
+        farm = request.form['farmer']
+        if farm == 'farmer':
+            return render_template['regFarm.html']
+        else:
+            return render_template['regInvestor.html']
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -87,6 +102,7 @@ def register():
             test = mongo.db.user
             test.insert({'Username': username,'pwd':password,'homefolder':HomeFolder,'shell':ShellType})
             #mongoDB
+            
 
             #
             flash('You have registered the username {0}. Please login'.format(username))
@@ -106,14 +122,26 @@ def login():
         username = request.form['txtUsername']
         password = request.form['txtPassword']
 
-
+        #user = User.query.filter_by(username=username).filter_by(password=password)
         user = mongo.db.testLogin
         for usr in user.find():
             userName = usr['_id']
             pwd = usr['pwd']
             role = usr['role']
+            ## add pages acordingly
             if(userName == username and pwd == password):
                 if(role == 'farmer'):
+                    user = mongo.db.testFarm
+                    avg = 0.0
+                    creditscore = 0.0
+                    for usr in user.find():
+                        usrname = usr['_id']
+                        yield1 = usr['yield1']
+                        yield2 = usr['yield2']
+                        yield3 = usr['yield3']
+                        avg = ((yield1+yield2+yield3)/3.0)/67.5
+                        creditscore = avg+0.55
+                        flash('creditscore {0}'.format(creditscore))
                     flash('Welcome back farmer {0}'.format(username))
                     try:
                         next = request.form['next']
@@ -127,6 +155,14 @@ def login():
                         return redirect(next)
                     except:
                         return redirect(url_for('index'))
+        # if user.count() == 1:
+        #     login_user(user.one())
+        #     flash('Welcome back {0}'.format(username))
+        #     try:
+        #         next = request.form['next']
+        #         return redirect(next)
+        #     except:
+        #         return redirect(url_for('index'))
         else:
             flash('Invalid login')
             return redirect(url_for('login'))
@@ -167,4 +203,5 @@ def index():
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 8080))
     host = os.getenv('IP', '127.0.0.1')
+
     app.run(port=port, host=host)
