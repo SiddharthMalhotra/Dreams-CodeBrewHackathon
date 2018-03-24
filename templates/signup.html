@@ -3,8 +3,8 @@
 <div class="container">
   <div id = "r">
     <form name="choices" action="signup.html">
-        <input type="radio" id="r1" name="role" value="farmer" onclick="fn()"> Farmer<br>
-        <input type="radio" id="r2" name="role" value="investor" onclick="fn()"> Investor<br>
+        <input type="radio" id="role" name="role" value="farmer" onclick="fn()"> Farmer<br>
+        <input type="radio" id="role" name="role" value="investor" onclick="fn()"> Investor<br>
     </form>
   </div>
   <div id = "f" name = "farmer" class="farmer" style="display:none">
@@ -15,7 +15,7 @@
     </div>
     <div class="row">
     <div class="col-md-8 col-md-offset-2">
-      <form action="/register" method="post">
+      <form action="/signup" method="post">
         <div class="form-group">
          <label for="txtUsername">Username*</label>
           <input type="text" class="form-control" id="txtUsername" name="txtUsername"/>
@@ -53,7 +53,7 @@
   </div>
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
-      <form action="/register" method="post">
+      <form action="/signup" method="post">
         <div class="form-group">
           <label for="txtUsername">Username*</label>
           <input type="text" class="form-control" id="txtUsername" name="txtUsername"/>

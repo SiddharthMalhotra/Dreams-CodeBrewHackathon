@@ -4,6 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 from flask_pymongo import PyMongo
 from flask import jsonify
+from decimal import Decimal
+import math
 
 import os
 import sys
@@ -76,31 +78,21 @@ def logout():
 def signup():
     if request.method == 'GET':
         return render_template('signup.html')
-    elif request.method =='POST':
-        farm = request.form['farmer']
-        if farm == 'farmer':
-            return render_template['regFarm.html']
-        else:
-            return render_template['regInvestor.html']
-
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    if request.method == 'GET':
-        return render_template('register.html')
     elif request.method == 'POST':
         username = request.form['txtUsername']
+        name = request.form('txtName')
         password = request.form['txtPassword']
-        HomeFolder = request.form['HomeFolder']
-        ShellType = request.form['ShellType']
-        privilege = request.form['privilege']
+        age = request.form['txtAge']
+        DOB = request.form['txtDOB']
+        Location = request.form['txtLocation']
         user = User.query.filter_by(username=username).filter_by(password=password)
         if user.count() == 0:
             user = User(username=username, password=password, HomeFolder=HomeFolder, ShellType=ShellType, privilege=privilege)
             db.session.add(user)
             db.session.commit()
             #session['user']=username
-            test = mongo.db.user
-            test.insert({'Username': username,'pwd':password,'homefolder':HomeFolder,'shell':ShellType})
+            test = mongo.db.testFarm
+            test.insert({'_id': username,'name':name,'age':age,'dob':DOB,'location':Location,'pwd':password})
             #mongoDB
             
 
@@ -109,7 +101,66 @@ def register():
             return redirect(url_for('login'))
         else:
             flash('The username {0} is already in use.  Please try a new username.'.format(username))
-            return redirect(url_for('register'))
+            return redirect(url_for('signup'))
+        
+
+@app.route('/registerfarmer', methods=['GET', 'POST'])
+def registerfarmer():
+    if request.method == 'GET':
+        return render_template('registerfarmer.html')
+    elif request.method == 'POST':
+        username = request.form['txtUsername']
+        name = request.form['txtName']
+        password = request.form['txtPassword']
+        age = request.form['txtAge']
+        DOB = request.form['txtDOB']
+        Location = request.form['txtLocation']
+        yield1 = float(request.form['txtyield1'])
+        yield2 = float(request.form['txtyield2'])
+        yield3 = float(request.form['txtyield3'])
+        avg = 0.0
+        
+        creditscore = 0.0
+        avg = ((yield1+yield2+yield3)/3.0)/67.5
+        creditscore = avg+0.55
+                        
+        user = User.query.filter_by(username=username).filter_by(password=password)
+        
+        test = mongo.db.testFarm
+        test.insert({'_id': username,'name':name,'age':age,'dob':DOB,'location':Location,'cred_cs':creditscore,'yield1':yield1,'yield2':yield2,'yield3':yield3,'pwd':password})
+            #mongoDB
+            #session['user']=username
+        flash('You have registered the username {0}. Please login'.format(username))
+        return redirect(url_for('login'))
+        # else:
+        #     flash('The username {0} is already in use.  Please try a new username.'.format(username))
+        #     return redirect(url_for('register'))
+    else:
+        abort(405)
+
+@app.route('/registerinvestor', methods=['GET', 'POST'])
+def registerinvestor():
+    if request.method == 'GET':
+        return render_template('registerinvestor.html')
+    elif request.method == 'POST':
+        username = request.form['txtUsername']
+        name = request.form['txtName']
+        password = request.form['txtPassword']
+        age = request.form['txtAge']
+        DOB = request.form['txtDOB']
+        Location = request.form['txtLocation']
+
+        user = User.query.filter_by(username=username).filter_by(password=password)
+        
+        test = mongo.db.testInv
+        test.insert({'_id': username,'name':name,'age':age,'dob':DOB,'location':Location,'pwd':password})
+            #mongoDB
+            #session['user']=username
+        flash('You have registered the username {0}. Please login'.format(username))
+        return redirect(url_for('login'))
+        # else:
+        #     flash('The username {0} is already in use.  Please try a new username.'.format(username))
+        #     return redirect(url_for('register'))
     else:
         abort(405)
 
@@ -131,17 +182,24 @@ def login():
             ## add pages acordingly
             if(userName == username and pwd == password):
                 if(role == 'farmer'):
-                    user = mongo.db.testFarm
-                    avg = 0.0
-                    creditscore = 0.0
-                    for usr in user.find():
-                        usrname = usr['_id']
-                        yield1 = usr['yield1']
-                        yield2 = usr['yield2']
-                        yield3 = usr['yield3']
-                        avg = ((yield1+yield2+yield3)/3.0)/67.5
-                        creditscore = avg+0.55
-                        flash('creditscore {0}'.format(creditscore))
+                    usrname = usr['_id']
+                        # csflr = math.floor(creditscore)
+                        # csciel = math.ceil(creditscore)
+                        # csdec = creditscore%csflr
+                        # if(csflr < 1):
+                        #     flash('not eligible')
+                        # if(csflr == 1):
+                        #     roi = 17.5 - (2.5 * csdec)
+                        # if(csflr == 2):
+                        #     roi = 15 - (2.5 * csdec)
+                        # if(csflr == 3):
+                        #     roi = 12.5 - (2.5 * csdec)
+                        # if(csflr == 4):
+                        #     roi = 10 - (2.5 * csdec)
+                        # if(csflr >= 5):
+                        #     roi = 7.5
+
+                        
                     flash('Welcome back farmer {0}'.format(username))
                     try:
                         next = request.form['next']
