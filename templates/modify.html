@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <center>
+        <h1>Modify User</h1>
+      </center>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <form action="/modify" method="post">
+	   <input type="hidden" class="form-control" id="txtid" name="txtid" value="{{ current_user.get_id() }}"/>
+        <div class="form-group">
+          <label for="xUsername">Username*</label>
+          <input type="text" class="form-control" id="xUsername" name="xUsername"/>
+        </div>
+        <div class="form-group">
+          <label for="xPassword">Password*</label>
+          <input type="password" class="form-control" id="xPassword" name="xPassword"/>
+        </div>
+		<div class="form-group">
+          <label for="xHomeFolder">Home Folder*</label>
+          <input type="text" class="form-control" id="xHomeFolder" name="xHomeFolder"/>
+        </div>
+		<div class="form-group">
+          <label for="xShellType">Shell Type*</label>
+          <input type="text" class="form-control" id="xShellType" name="xShellType"/>
+        </div>
+		<div class="form-group">
+			<label for="xprivilege">Privilege*</label>
+				<div class="radio">
+					<label><input type="radio" name="xprivilege" id="xprivelege" value="Sudo">Sudo</label>
+				</div>
+				<div class="radio">
+					<label><input type="radio" name="xprivilege" id="xprivelege" value="Not Sudo">Not Sudo</label>
+				</div>
+        </div>
+		<center>    <button type="submit" class="btn btn-primary">Modify User</button>  </center>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <center>
+        <h1>Create New User</h1>
+      </center>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <form action="/register" method="post">
+        <div class="form-group">
+          <label for="txtUsername">Username*</label>
+          <input type="text" class="form-control" id="txtUsername" name="txtUsername"/>
+        </div>
+        <div class="form-group">
+          <label for="txtPassword">Password*</label>
+          <input type="password" class="form-control" id="txtPassword" name="txtPassword"/>
+        </div>
+		<div class="form-group">
+          <label for="HomeFolder">Home Folder*</label>
+          <input type="text" class="form-control" id="HomeFolder" name="HomeFolder"/>
+        </div>
+		<div class="form-group">
+          <label for="ShellType">Shell Type*</label>
+          <input type="text" class="form-control" id="ShellType" name="ShellType"/>
+        </div>
+		<div class="form-group">
+			<label for="privilege">Privilege*</label>
+				<div class="radio">
+					<label><input type="radio" name="privilege" id="privelege" value="Sudo">Sudo</label>
+				</div>
+				<div class="radio">
+					<label><input type="radio" name="privilege" id="privelege" value="Not Sudo">Not Sudo</label>
+				</div>
+        </div>
+		<center>    <button type="submit" class="btn btn-primary">Create User</button>  </center>
+      </form>
+    </div>
+  </div>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+      <div class="row">
+        <div class="alert alert-info" role="alert">{{ message }}</div>
+      </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+</div>
+{% endblock %}
