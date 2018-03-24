@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <center>
+        <h1>Create New Farmer Profile</h1>
+      </center>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <form action="/register" method="post">
+        <div class="form-group">
+          <label for="txtUsername">Username*</label>
+          <input type="text" class="form-control" id="txtUsername" name="txtUsername"/>
+        </div>
+        <div class="form-group">
+          <label for="txtPassword">Password*</label>
+          <input type="password" class="form-control" id="txtPassword" name="txtPassword"/>
+        </div>
+		<div class="form-group">
+          <label for="HomeFolder">Name*</label>
+          <input type="text" class="form-control" id="fname" name="fname"/>
+        </div>
+		<div class="form-group">
+          <label for="ShellType">Age*</label>
+          <input type="text" class="form-control" id="fage" name="fage"/>
+        </div>
+        <div class="form-group">
+          <label for="ShellType">D.O.B.*</label>
+          <input type="text" class="form-control" id="dob" name="dob"/>
+        </div>
+        <div class="form-group">
+          <label for="ShellType">Countryn*</label>
+          <input type="text" class="form-control" id="country" name="country"/>
+        </div>
+        <div class="form-group">
+          <label for="ShellType">Collateral*</label>
+          <input type="text" class="form-control" id="coll" name="coll"/>
+        </div>
+        <div class="form-group">
+          <label for="ShellType">Recent Yields (3 latest)*</label>
+          <input type="text" class="form-control" id="yield1" name="yield1"/>
+          <input type="text" class="form-control" id="yield2" name="yield2"/>
+          <input type="text" class="form-control" id="yield3" name="yield3"/>
+        </div>
+		<center>    <button type="submit" class="btn btn-primary">Create Farmer Profile</button>  </center>
+      </form>
+    </div>
+  </div>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+      <div class="row">
+        <div class="alert alert-info" role="alert">{{ message }}</div>
+      </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+</div>
+{% endblock %}

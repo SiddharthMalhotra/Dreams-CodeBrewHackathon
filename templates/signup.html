@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <div id = "r">
+    <form name="choices" action="signup.html">
+        <input type="radio" id="r1" name="role" value="farmer" onclick="fn()"> Farmer<br>
+        <input type="radio" id="r2" name="role" value="investor" onclick="fn()"> Investor<br>
+    </form>
+  </div>
+  <div id = "f" name = "farmer" class="farmer" style="display:none">
+    <div class="row">
+      <div class="col-md-12">
+        <center> <h1>Create New Farmer Profile</h1></center>
+      </div>
+    </div>
+    <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <form action="/register" method="post">
+        <div class="form-group">
+         <label for="txtUsername">Username*</label>
+          <input type="text" class="form-control" id="txtUsername" name="txtUsername"/>
+        </div>
+        <div class="form-group">
+          <label for="txtName">Username*</label>
+          <input type="text" class="form-control" id="txtName" name="txtName"/>
+        </div>
+       <div class="form-group">
+          <label for="txtPassword">Password*</label>
+          <input type="password" class="form-control" id="txtPassword" name="txtPassword"/>
+        </div>
+    <div class="form-group">
+          <label for="txtAge">Age*</label>
+          <input type="text" class="form-control" id="txtAge" name="txtAge"/>
+        </div>
+    <div class="form-group">
+          <label for="txtDOB">Date of Birth(dd/mm/yy)*</label>
+          <input type="text" class="form-control" id="txtDOB" name="txtDOB"/>
+        </div>
+      <div class="form-group">
+          <label for="txtLocation">Location*</label>
+          <input type="text" class="form-control" id="txtLocation" name="txtLocation"/>
+        </div>
+    <center>  <button type="submit" class="btn btn-primary">Create User</button>  </center>
+      </form>
+    </div>
+    </div>
+  </div>
+  <div id = "i" name = "investor" class="investor" style="display:none">
+  <div class="row">
+    <div class="col-md-12">
+    <center><h1>Create New Investor Profile</h1></center>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <form action="/register" method="post">
+        <div class="form-group">
+          <label for="txtUsername">Username*</label>
+          <input type="text" class="form-control" id="txtUsername" name="txtUsername"/>
+        </div>
+        <div class="form-group">
+          <label for="txtName">Username*</label>
+          <input type="text" class="form-control" id="txtName" name="txtName"/>
+        </div>
+        <div class="form-group">
+          <label for="txtPassword">Password*</label>
+          <input type="password" class="form-control" id="txtPassword" name="txtPassword"/>
+        </div>
+    <div class="form-group">
+          <label for="txtAge">Age*</label>
+          <input type="text" class="form-control" id="txtAge" name="txtAge"/>
+        </div>
+    <div class="form-group">
+          <label for="txtDOB">Date of Birth(dd/mm/yy)*</label>
+          <input type="text" class="form-control" id="txtDOB" name="txtDOB"/>
+        </div>
+      <div class="form-group">
+          <label for="txtLocation">Location*</label>
+          <input type="text" class="form-control" id="txtLocation" name="txtLocation"/>
+        </div>
+    <center>    <button type="submit" class="btn btn-primary">Create User</button>  </center>
+      </form>
+  </div>
+</div>
+</div>
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+     {% for message in messages %}
+     <div class="row">
+        <div class="alert alert-info" role="alert">{{ message }}</div>
+      </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+</div>
+{% endblock %}
