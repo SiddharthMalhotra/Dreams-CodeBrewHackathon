@@ -48,17 +48,28 @@ def init_request():
 def options():
     if request.method == 'GET':
         users = User.query.all()
+        #units = len(users)        
+        #comma_separated = ','.join(user)
+        #print(user, file=sys.stderr)
+        #session['user'] = user
         return render_template('options.html',test=users)
        
     elif request.method == 'POST':
+         #q = dbsession.query(user)
         id = request.form['txtid']
         user = User.query.filter_by(id=id)
+        #q = q.filter(user.id)
+        #record = record.one()
 
         db.session.delete(user.one())
+        #a = db.session.query(Submission).filter_by(username=username,password=password).count()
         db.session.commit()
         flash('You have deleted the username')
         return redirect(url_for('logout'))
-
+        
+        #else:
+            #flash('The username {0} is already in use.  Please try a new username.'.format(username))
+            #return redirect(url_for('logout'))
     else:
         abort(405)
 
@@ -87,10 +98,12 @@ def register():
             user = User(username=username, password=password, HomeFolder=HomeFolder, ShellType=ShellType, privilege=privilege)
             db.session.add(user)
             db.session.commit()
+            #session['user']=username
             test = mongo.db.user
             test.insert({'Username': username,'pwd':password,'homefolder':HomeFolder,'shell':ShellType})
+            #mongoDB
 
-
+            #
             flash('You have registered the username {0}. Please login'.format(username))
             return redirect(url_for('login'))
         else:
@@ -108,11 +121,13 @@ def login():
         username = request.form['txtUsername']
         password = request.form['txtPassword']
 
+        #user = User.query.filter_by(username=username).filter_by(password=password)
         user = mongo.db.testLogin
         for usr in user.find():
             userName = usr['_id']
             pwd = usr['pwd']
             role = usr['role']
+            ## add pages acordingly
             if(userName == username and pwd == password):
                 if(role == 'farmer'):
                     flash('Welcome back farmer {0}'.format(username))
@@ -128,6 +143,14 @@ def login():
                         return redirect(next)
                     except:
                         return redirect(url_for('index'))
+        # if user.count() == 1:
+        #     login_user(user.one())
+        #     flash('Welcome back {0}'.format(username))
+        #     try:
+        #         next = request.form['next']
+        #         return redirect(next)
+        #     except:
+        #         return redirect(url_for('index'))
         else:
             flash('Invalid login')
             return redirect(url_for('login'))
@@ -151,6 +174,7 @@ def modify():
             db.session.delete(user.one())
             db.session.add(user)
             db.session.commit()
+            #session['user']=username
             flash('You have registered the username {0}. Please login'.format(username))
             return redirect(url_for('modify'))
         else:
